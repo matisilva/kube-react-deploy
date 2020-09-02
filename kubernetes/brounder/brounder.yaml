@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: brounder-frontend
+  labels:
+    name: brounder-frontend
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: brounder-frontend
+    spec:
+      containers:
+      - name: brounder-frontend
+        image: brounder-frontend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: brounder-frontend
+  labels:
+    name: brounder-frontend
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 3000
+    targetPort: 80
+  selector:
+    name: brounder-frontend
